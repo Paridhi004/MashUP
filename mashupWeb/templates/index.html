@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mashup Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .container-wrapper {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: none;
+        }
+
+        .card-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0;
+            margin-bottom: 5px;
+        }
+
+        .card-header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 10px 14px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+            background-color: #f8f9ff;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            pointer-events: none;
+        }
+
+        .form-control.has-icon {
+            padding-right: 45px;
+        }
+
+        .form-text {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 11px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .spinner-border {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .alert-icon {
+            margin-right: 10px;
+        }
+
+        .form-hint {
+            background-color: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .form-hint i {
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .card-header {
+                padding: 20px;
+            }
+
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .card-body {
+                padding: 25px;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+            }
+
+            .btn-submit {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-wrapper">
+        <div class="card">
+            <div class="card-header">
+                <h1><i class="fas fa-music"></i> Mashup Generator</h1>
+                <p>Create your perfect music mashup in seconds</p>
+            </div>
+            <div class="card-body">
+                <div id="message-container"></div>
+
+                <form id="mashupForm">
+                    <div class="form-group">
+                        <label for="singer" class="form-label">
+                            <i class="fas fa-microphone"></i> Singer Name
+                        </label>
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                class="form-control has-icon" 
+                                id="singer" 
+                                name="singer" 
+                                placeholder="e.g., Taylor Swift"
+                                required
+                            >
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                        <small class="form-text">Enter the singer's name</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videos" class="form-label">
+                            <i class="fas fa-video"></i> Number of Videos
+                        </label>
+                        <div class="input-group">
+                            <input 
+                                type="number" 
+                                class="form-control has-icon" 
+                                id="videos" 
+                                name="videos" 
+                                min="11"
+                                placeholder="Minimum 11"
+                                required
+                            >
+                            <i class="fas fa-film input-icon"></i>
+                        </div>
+                        <small class="form-text">Must be more than 10 videos</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration" class="form-label">
+                            <i class="fas fa-hourglass-end"></i> Duration
+                        </label>
+                        <div class="input-group">
+                            <input 
+                                type="number" 
+                                class="form-control has-icon" 
+                                id="duration" 
+                                name="duration" 
+                                min="21"
+                                placeholder="Minimum 21 seconds"
+                                required
+                            >
+                            <i class="fas fa-clock input-icon"></i>
+                        </div>
+                        <small class="form-text">Duration in seconds (must be more than 20)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i> Email Address
+                        </label>
+                        <div class="input-group">
+                            <input 
+                                type="email" 
+                                class="form-control has-icon" 
+                                id="email" 
+                                name="email" 
+                                placeholder="your@email.com"
+                                required
+                            >
+                            <i class="fas fa-at input-icon"></i>
+                        </div>
+                        <small class="form-text">We'll send your mashup here</small>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-magic"></i> Create Mashup
+                    </button>
+                </form>
+
+                <div class="form-hint">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Tip:</strong> Make sure your inputs meet the minimum requirements for the best results!
+                </div>
+
+                <div class="footer-text">
+                    Your mashup will be sent directly to your email
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const form = document.getElementById('mashupForm');
+        const messageContainer = document.getElementById('message-container');
+        const submitBtn = form.querySelector('.btn-submit');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Clear previous messages
+            messageContainer.innerHTML = '';
+
+            // Validate inputs client-side
+            const videos = parseInt(document.getElementById('videos').value);
+            const duration = parseInt(document.getElementById('duration').value);
+            const email = document.getElementById('email').value;
+
+            if (videos <= 10) {
+                showMessage('Videos must be more than 10', 'danger');
+                return;
+            }
+
+            if (duration <= 20) {
+                showMessage('Duration must be more than 20 seconds', 'danger');
+                return;
+            }
+
+            if (!email.includes('@')) {
+                showMessage('Please enter a valid email address', 'danger');
+                return;
+            }
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Creating...';
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.text();
+
+                if (response.ok && result.includes('success')) {
+                    showMessage(
+                        '<i class="fas fa-check-circle alert-icon"></i> <strong>Success!</strong> Your mashup has been created and sent to your email.',
+                        'success'
+                    );
+                    form.reset();
+                } else {
+                    showMessage(
+                        '<i class="fas fa-exclamation-circle alert-icon"></i> <strong>Error:</strong> ' + result,
+                        'danger'
+                    );
+                }
+            } catch (error) {
+                showMessage(
+                    '<i class="fas fa-exclamation-circle alert-icon"></i> <strong>Error:</strong> Failed to create mashup. Please try again.',
+                    'danger'
+                );
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+
+        function showMessage(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = message;
+            messageContainer.appendChild(alertDiv);
+            messageContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Real-time validation feedback
+        document.getElementById('videos').addEventListener('change', (e) => {
+            if (parseInt(e.target.value) <= 10) {
+                e.target.classList.add('is-invalid');
+            } else {
+                e.target.classList.remove('is-invalid');
+            }
+        });
+
+        document.getElementById('duration').addEventListener('change', (e) => {
+            if (parseInt(e.target.value) <= 20) {
+                e.target.classList.add('is-invalid');
+            } else {
+                e.target.classList.remove('is-invalid');
+            }
+        });
+    </script>
+</body>
+</html>
